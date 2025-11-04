@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import mustafaAvatar from "./img/mustafazi.PNG";
+import emailjs from "@emailjs/browser";
 import {
   ArrowUpRight,
   Github,
@@ -69,7 +70,7 @@ const HERO = {
   location: "Toronto, Canada",
   email: "tamermus854@gmail.com",
   phone: "+1 (647) 832-4198",
-  resumeUrl: "/Users/mustafatamer/pwoject/mustafas_portfolio/src/links/MustafasSWECV.pdf",
+  resumeUrl: "/links/MustafasSWECV.pdf",
   avatar:
   mustafaAvatar,
 };
@@ -159,6 +160,9 @@ const Nav = ({ onTheme, theme }) => {
         <div className="flex items-center gap-3">
           <a
             href={HERO.resumeUrl}
+            download="Mustafa_Tamer_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 rounded-xl border border-slate-300/50 bg-white/70 px-3 py-1.5 text-sm font-medium shadow-sm ring-1 ring-black/5 hover:-translate-y-0.5 hover:shadow transition dark:border-white/10 dark:bg-white/5"
           >
             <Download className="h-4 w-4" /> Resume
@@ -479,7 +483,7 @@ const EmptyProjects = () => (
       <div>
         <h3 className="text-lg font-semibold">Your canvas awaits</h3>
         <p className="mt-2 text-slate-600 dark:text-slate-300">
-          You have not added any projects yet. Open <code className="rounded bg-black/10 px-1 dark:bg-white/10">App.jsx</code> and push entries into the <code className="rounded bg-black/10 px-1 dark:bg-white/10">PROJECTS</code> array to populate this grid.
+         
         </p>
         <div className="mt-6 flex justify-center gap-3">
           {["Impact first", "Show metrics", "Tell a story"].map((x) => (
@@ -531,55 +535,164 @@ const ContactForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState({ type: null, message: "" });
 
-  const onSubmit = (e) => {
+  // EmailJS configuration - Set these in your .env file or replace with your actual values
+  // Get these from https://www.emailjs.com after setting up your account
+  const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || "";
+  const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || "";
+  const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || "";
+
+  // Debug: Check if EmailJS is configured (remove this after testing)
+  useEffect(() => {
+    console.log("EmailJS Config:", {
+      SERVICE_ID: EMAILJS_SERVICE_ID ? "✓ Set" : "✗ Missing",
+      TEMPLATE_ID: EMAILJS_TEMPLATE_ID ? "✓ Set" : "✗ Missing",
+      PUBLIC_KEY: EMAILJS_PUBLIC_KEY ? "✓ Set" : "✗ Missing",
+    });
+  }, [EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY]);
+
+  const validateForm = () => {
+    if (!name.trim()) {
+      setStatus({ type: "error", message: "Please enter your name" });
+      return false;
+    }
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setStatus({ type: "error", message: "Please enter a valid email address" });
+      return false;
+    }
+    if (!message.trim()) {
+      setStatus({ type: "error", message: "Please enter a message" });
+      return false;
+    }
+    return true;
+  };
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    const mailto = `mailto:${HERO.email}?subject=Portfolio%20message%20from%20${encodeURIComponent(
-      name || "Anonymous"
-    )}&body=${encodeURIComponent(message)}%0A%0AFrom:%20${encodeURIComponent(
-      email
-    )}`;
-    window.location.href = mailto;
-    setSent(true);
+    
+    if (!validateForm()) {
+      return;
+    }
+
+    setLoading(true);
+    setStatus({ type: null, message: "" });
+
+    // Try EmailJS if configured, otherwise fall back to mailto
+    if (EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY) {
+      try {
+        const templateParams = {
+          from_name: name,
+          from_email: email,
+          message: message,
+          reply_to: email,
+        };
+
+        const response = await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          templateParams,
+          EMAILJS_PUBLIC_KEY
+        );
+
+        console.log("EmailJS success:", response);
+        setStatus({ type: "success", message: "Message sent successfully! I'll get back to you soon." });
+        setName("");
+        setEmail("");
+        setMessage("");
+      } catch (error) {
+        console.error("EmailJS error details:", error);
+        let errorMessage = "Failed to send message. ";
+        
+        if (error.text) {
+          errorMessage += `Error: ${error.text}`;
+        } else if (error.message) {
+          errorMessage += `Error: ${error.message}`;
+        } else {
+          errorMessage += "Please check your EmailJS configuration or try again.";
+        }
+        
+        setStatus({ type: "error", message: errorMessage });
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      // Fallback to mailto
+      const mailto = `mailto:${HERO.email}?subject=Portfolio%20message%20from%20${encodeURIComponent(
+        name
+      )}&body=${encodeURIComponent(message)}%0A%0AFrom:%20${encodeURIComponent(email)}`;
+      window.location.href = mailto;
+      setStatus({ type: "success", message: "Opening your email client..." });
+      setName("");
+      setEmail("");
+      setMessage("");
+      setLoading(false);
+    }
   };
 
   return (
     <form onSubmit={onSubmit} className="mt-4 space-y-4">
       <div>
-        <label className="text-sm">Name</label>
+        <label className="text-sm font-medium">Name</label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="mt-1 w-full rounded-xl border border-white/20 bg-white/80 px-3 py-2 ring-1 ring-black/5 dark:bg-white/10"
-          placeholder="Ada Lovelace"
+          className="mt-1 w-full rounded-xl border border-white/20 bg-white/80 px-3 py-2 ring-1 ring-black/5 transition focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-white/10"
+          placeholder="Your name"
+          disabled={loading}
         />
       </div>
       <div>
-        <label className="text-sm">Email</label>
+        <label className="text-sm font-medium">Email</label>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 w-full rounded-xl border border-white/20 bg-white/80 px-3 py-2 ring-1 ring-black/5 dark:bg-white/10"
-          placeholder="you@example.com"
+          className="mt-1 w-full rounded-xl border border-white/20 bg-white/80 px-3 py-2 ring-1 ring-black/5 transition focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-white/10"
+          placeholder="your.email@example.com"
+          disabled={loading}
         />
       </div>
       <div>
-        <label className="text-sm">Message</label>
+        <label className="text-sm font-medium">Message</label>
         <textarea
           rows={4}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="mt-1 w-full rounded-2xl border border-white/20 bg-white/80 px-3 py-2 ring-1 ring-black/5 dark:bg-white/10"
+          className="mt-1 w-full rounded-2xl border border-white/20 bg-white/80 px-3 py-2 ring-1 ring-black/5 transition focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-white/10"
           placeholder="Write a short note"
+          disabled={loading}
         />
       </div>
-      <div className="flex items-center justify-between">
-        <button type="submit" className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-sky-500 px-5 py-2.5 font-medium text-white shadow-lg ring-1 ring-black/5 transition hover:opacity-90">
-          Send <ArrowUpRight className="h-4 w-4" />
+      <div className="flex flex-col gap-3">
+        <button
+          type="submit"
+          disabled={loading}
+          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-sky-500 px-5 py-2.5 font-medium text-white shadow-lg ring-1 ring-black/5 transition hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+              Sending...
+            </>
+          ) : (
+            <>
+              Send <ArrowUpRight className="h-4 w-4" />
+            </>
+          )}
         </button>
-        {sent && <span className="text-sm text-emerald-600 dark:text-emerald-400">Opened your email client</span>}
+        {status.message && (
+          <div
+            className={`rounded-xl px-3 py-2 text-sm ${
+              status.type === "success"
+                ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400"
+                : "bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400"
+            }`}
+          >
+            {status.message}
+          </div>
+        )}
       </div>
     </form>
   );
