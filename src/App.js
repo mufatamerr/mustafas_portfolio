@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import mustafaAvatar from "./img/mustafazi.PNG";
 import {
   ArrowUpRight,
   Github,
@@ -28,9 +29,9 @@ import Folder from "./visuals/Folder";
 import GradualBlur from "./visuals/GradualBlur";
 import LiquidEther from "./visuals/LiquidEther";
 
-// =============================
+
 // THEME TOGGLE + UTILITIES
-// =============================
+
 const useTheme = () => {
   const [theme, setTheme] = useState(
     typeof window !== "undefined"
@@ -58,19 +59,19 @@ const Container = ({ className = "", children }) => (
   <div className={`mx-auto w-full max-w-7xl px-6 md:px-8 ${className}`}>{children}</div>
 );
 
-// =============================
-// DATA PLACEHOLDERS (EDIT FREELY)
-// =============================
+
+// DATA PLACEHOLDERS
+
 const HERO = {
-  name: "Your Name",
+  name: "Mustafa Tamer",
   title: "Software Engineer",
   tagline: "I craft fast, accessible, and beautiful products that scale.",
   location: "Toronto, Canada",
-  email: "you@example.com",
-  phone: "+1 (555) 123-4567",
-  resumeUrl: "/resume.pdf",
+  email: "tamermus854@gmail.com",
+  phone: "+1 (647) 832-4198",
+  resumeUrl: "/Users/mustafatamer/pwoject/mustafas_portfolio/src/links/MustafasSWECV.pdf",
   avatar:
-    "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop",
+  mustafaAvatar,
 };
 
 const PROJECTS = [
@@ -243,11 +244,11 @@ const Hero = () => {
               <div className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4" /> Open to relocate</div>
             </div>
             <div className="mt-6 flex items-center gap-4">
-              <a className="group inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" href="https://github.com/" target="_blank" rel="noreferrer">
+              <a className="group inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" href="https://github.com/mufatamerr" target="_blank" rel="noreferrer">
                 <Github className="h-5 w-5" /> GitHub
                 <ExternalLink className="h-3 w-3 opacity-0 transition group-hover:opacity-100" />
               </a>
-              <a className="group inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" href="https://linkedin.com/" target="_blank" rel="noreferrer">
+              <a className="group inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" href="https://www.linkedin.com/in/mustafatamer5/" target="_blank" rel="noreferrer">
                 <Linkedin className="h-5 w-5" /> LinkedIn
                 <ExternalLink className="h-3 w-3 opacity-0 transition group-hover:opacity-100" />
               </a>
@@ -263,7 +264,7 @@ const Hero = () => {
             className="relative"
           >
             <div className="relative mx-auto h-72 w-72 overflow-hidden rounded-3xl border border-white/20 shadow-2xl ring-1 ring-black/5 md:h-[26rem] md:w-[26rem]">
-              <img src={HERO.avatar} alt="Avatar" className="h-full w-full object-cover" />
+              <img src={HERO.avatar} alt="Avatar" className="h-full w-full object-cover" style={{ objectPosition: '31% -5%', transform: 'scale(1.1)' }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-2xl bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-700 shadow ring-1 ring-black/5 backdrop-blur dark:bg-white/10 dark:text-white">
                 <Sparkles className="h-3.5 w-3.5" /> Building delightful systems
@@ -287,10 +288,11 @@ const About = () => (
           <div className="rounded-3xl border border-white/10 bg-white/70 p-6 shadow-xl ring-1 ring-black/5 backdrop-blur dark:bg-white/5">
             <h2 className="text-xl font-semibold tracking-tight">About</h2>
             <p className="mt-3 text-slate-600 dark:text-slate-300">
-              I blend product sense with strong engineering. I like clean abstractions, crisp UI, and fast delivery. I move ideas from zero to launch.
+            I'm a third-year Bachelor of Computer Science (Mobile Computing) student at Sheridan College, graduating in 2027. I blend product sense with strong engineering. I like clean abstractions, crisp UI, and fast delivery. I move ideas from zero to launch.
             </p>
             <ul className="mt-4 space-y-2 text-sm text-slate-600 dark:text-slate-300">
               <li className="inline-flex items-center gap-2"><Phone className="h-4 w-4" /> {HERO.phone}</li>
+              
               <li className="inline-flex items-center gap-2"><Mail className="h-4 w-4" /> {HERO.email}</li>
               <li className="inline-flex items-center gap-2"><MapPin className="h-4 w-4" /> {HERO.location}</li>
             </ul>
@@ -506,10 +508,10 @@ const Contact = () => (
             <a className="group flex items-center gap-3" href={`mailto:${HERO.email}`}>
               <Mail className="h-5 w-5" /> {HERO.email}
             </a>
-            <a className="group flex items-center gap-3" href="https://linkedin.com/" target="_blank" rel="noreferrer">
+            <a className="group flex items-center gap-3" href="https://www.linkedin.com/in/mustafatamer5/" target="_blank" rel="noreferrer">
               <Linkedin className="h-5 w-5" /> LinkedIn
             </a>
-            <a className="group flex items-center gap-3" href="https://github.com/" target="_blank" rel="noreferrer">
+            <a className="group flex items-center gap-3" href="https://github.com/mufatamerr" target="_blank" rel="noreferrer">
               <Github className="h-5 w-5" /> GitHub
             </a>
           </div>
@@ -610,24 +612,6 @@ export default function App() {
       <Projects />
       <Contact />
       <Footer />
-
-      {/* HOW TO EDIT */}
-      <Section id="how-to-edit" className="py-10">
-        <Container>
-          <details className="group rounded-3xl border border-white/10 bg-white/70 p-6 shadow-xl ring-1 ring-black/5 backdrop-blur dark:bg-white/5">
-            <summary className="flex cursor-pointer list-none items-center justify-between">
-              <h3 className="text-lg font-semibold tracking-tight">How to edit content</h3>
-              <Briefcase className="h-5 w-5 transition group-open:rotate-180" />
-            </summary>
-            <div className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-200">
-              <p>Update the <code className="rounded bg-black/10 px-1 dark:bg-white/10">HERO</code> object to change your name, title, location, avatar, and resume URL.</p>
-              <p>Add positions in <code className="rounded bg-black/10 px-1 dark:bg-white/10">EXPERIENCE</code>. Each role has a company, role, period, and bullet points.</p>
-              <p>Add projects to the <code className="rounded bg-black/10 px-1 dark:bg-white/10">PROJECTS</code> array. Include a title, short blurb, tags, live link, and repo.</p>
-              <p>Adjust skills in the <code className="rounded bg-black/10 px-1 dark:bg-white/10">SKILLS</code> object. Sections render from keys.</p>
-            </div>
-          </details>
-        </Container>
-      </Section>
     </div>
   );
 }
