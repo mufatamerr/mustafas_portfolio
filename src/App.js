@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import mustafaAvatar from "./img/mustafazi.PNG";
 import emailjs from "@emailjs/browser";
+import ProjectsPage from "./ProjectsPage";
+import "./GlowEffect.css";
 import {
   ArrowUpRight,
   Github,
@@ -12,8 +15,6 @@ import {
   Rocket,
   Download,
   ExternalLink,
-  Briefcase,
-  Sparkles,
   Star,
   Code2,
   MapPin,
@@ -27,7 +28,6 @@ import {
 import Balatro from "./visuals/Balatro";
 import Beams from "./visuals/Beams";
 import Folder from "./visuals/Folder";
-import GradualBlur from "./visuals/GradualBlur";
 import LiquidEther from "./visuals/LiquidEther";
 
 
@@ -87,32 +87,23 @@ const PROJECTS = [
 
 const EXPERIENCE = [
   {
-    company: "Your Company",
-    role: "Software Developer",
-    period: "2024 — Present",
+    company: "Moore's Clothing",
+    role: "Team Lead",
+    period: "August 2023 — Present",
     points: [
-      "Built performant UI that served 100k+ monthly users.",
-      "Reduced build times by 45% with modular architecture.",
-      "Led a2a platform migration with zero downtime.",
-    ],
-  },
-  {
-    company: "Another Org",
-    role: "Mobile Developer",
-    period: "2023 — 2024",
-    points: [
-      "Shipped iOS features with 4.9 average rating.",
-      "Cut crash rate to under 0.2%.",
-      "Introduced CI pipelines to speed releases.",
+      "Led a team of 8–10 associates, delegating tasks and optimizing scheduling to ensure peak productivity, improving daily workflow efficiency by 20%.",
+      "Trained and mentored 5+ new hires, creating step-by-step onboarding guides and standardizing procedures.",
+      "Analyzed sales data and KPIs, identifying patterns and implementing adjustments that boosted weekly revenue by 10–12%, applying problem-solving and data-driven decision-making.",
     ],
   },
 ];
 
 const SKILLS = {
-  Core: ["React", "TypeScript", "Node.js", "Python", "FastAPI", "SQL"],
-  Frontend: ["Tailwind", "Framer Motion", "Vite", "Redux", "Next.js"],
-  Backend: ["PostgreSQL", "MongoDB", "Redis", "Prisma", "Docker"],
-  Cloud: ["Vercel", "Netlify", "Firebase", "AWS"],
+  Core: ["React", "TypeScript", "Node.js", "Python", "Java", "FastAPI", "SQL"],
+  Frontend: ["Tailwind", "Framer Motion", "Vite"],
+  Backend: ["PostgreSQL", "MongoDB", "Docker"],
+  Cloud: ["Vercel", "Firebase", "AWS"],
+  Tools: ["Git", "GitHub", "VSCode", "IntelliJ", "Jira", "Slack", "Cursor", "Windsurf"],
 };
 
 // =============================
@@ -271,15 +262,12 @@ const Hero = () => {
               <img src={HERO.avatar} alt="Avatar" className="h-full w-full object-cover" style={{ objectPosition: '31% -5%', transform: 'scale(1.1)' }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-2xl bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-700 shadow ring-1 ring-black/5 backdrop-blur dark:bg-white/10 dark:text-white">
-                <Sparkles className="h-3.5 w-3.5" /> Building delightful systems
               </div>
             </div>
           </motion.div>
         </div>
       </Container>
 
-      {/* soft scroll fade at bottom of hero */}
-      <GradualBlur position="bottom" height="8rem" strength={2} divCount={8} curve="bezier" opacity={1} />
     </Section>
   );
 };
@@ -329,7 +317,17 @@ const About = () => (
               <h3 className="text-lg font-semibold tracking-tight">What I bring</h3>
               <ul className="mt-4 grid gap-3 md:grid-cols-2">
                 {["Systems thinking", "Rapid prototyping", "Strong UX", "Data-driven", "Secure by default", "Team player"].map((s) => (
-                  <li key={s} className="inline-flex items-center gap-3 rounded-2xl border border-white/20 bg-white/70 px-3 py-2 text-sm shadow-sm ring-1 ring-black/5 dark:bg-white/5">
+                  <li 
+                    key={s} 
+                    className="glow-hover inline-flex items-center gap-3 rounded-2xl border border-white/20 bg-white/70 px-3 py-2 text-sm shadow-sm ring-1 ring-black/5 dark:bg-white/5"
+                    onMouseMove={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const x = e.clientX - rect.left;
+                      const y = e.clientY - rect.top;
+                      e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+                      e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+                    }}
+                  >
                     <Star className="h-4 w-4" />{s}
                   </li>
                 ))}
@@ -357,7 +355,17 @@ const Skills = () => (
             </h3>
             <div className="flex flex-wrap gap-2">
               {v.map((skill) => (
-                <span key={skill} className="rounded-full border border-white/20 bg-white/80 px-3 py-1 text-sm ring-1 ring-black/5 dark:bg-white/10">
+                <span 
+                  key={skill} 
+                  className="glow-hover rounded-full border border-white/20 bg-white/80 px-3 py-1 text-sm ring-1 ring-black/5 dark:bg-white/10"
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+                    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+                  }}
+                >
                   {skill}
                 </span>
               ))}
@@ -451,9 +459,6 @@ const Projects = () => (
           <h2 className="text-xl font-semibold tracking-tight">Projects</h2>
           <p className="mt-2 text-slate-600 dark:text-slate-300">Add your best work here. The layout updates automatically.</p>
         </div>
-        <a href="#how-to-edit" className="inline-flex items-center gap-2 text-sm font-medium hover:underline">
-          How to edit <ArrowUpRight className="h-4 w-4" />
-        </a>
       </div>
       {PROJECTS.length > 0 ? (
         <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -468,39 +473,44 @@ const Projects = () => (
   </Section>
 );
 
-const EmptyProjects = () => (
-  <div className="relative mt-6 overflow-hidden rounded-3xl border border-dashed border-slate-300/60 p-10 text-center dark:border-white/20">
-    <div className="mx-auto flex max-w-2xl flex-col items-center gap-6">
-      <Folder
-        size={1.4}
-        color="#5227FF"
-        items={[
-          <div key="a" className="h-full w-full p-2 text-xs text-center">Case Study</div>,
-          <div key="b" className="h-full w-full p-2 text-xs text-center">Demo Link</div>,
-          <div key="c" className="h-full w-full p-2 text-xs text-center">GitHub</div>,
-        ]}
-      />
-      <div>
-        <h3 className="text-lg font-semibold">Your canvas awaits</h3>
-        <p className="mt-2 text-slate-600 dark:text-slate-300">
-         
-        </p>
-        <div className="mt-6 flex justify-center gap-3">
-          {["Impact first", "Show metrics", "Tell a story"].map((x) => (
-            <span key={x} className="rounded-full border border-white/20 bg-white/80 px-3 py-1 text-xs ring-1 ring-black/5 dark:bg-white/10">
-              {x}
-            </span>
-          ))}
+const EmptyProjects = () => {
+  const navigate = useNavigate();
+  
+  return (
+    <div className="relative mt-6 rounded-3xl border border-dashed border-slate-300/60 p-10 text-center dark:border-white/20">
+      <div className="mx-auto flex max-w-2xl flex-col items-center gap-6">
+        <div className="relative" style={{ height: '220px', width: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+          <Folder
+            size={1.4}
+            color="#5227FF"
+            items={[
+              <div key="a" className="h-full w-full p-2 text-xs text-center">Case Study</div>,
+              <div key="b" className="h-full w-full p-2 text-xs text-center">Demo Link</div>,
+              <div key="c" className="h-full w-full p-2 text-xs text-center">GitHub</div>,
+            ]}
+            onNavigate={() => navigate("/projects")}
+          />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold">My Projects!</h3>
+          <p className="mt-2 text-slate-600 dark:text-slate-300">
+            Click the folder to view all projects
+          </p>
+          <div className="mt-6 flex justify-center gap-3">
+            {[].map((x) => (
+              <span key={x} className="rounded-full border border-white/20 bg-white/80 px-3 py-1 text-xs ring-1 ring-black/5 dark:bg-white/10">
+                {x}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Contact = () => (
   <Section id="contact">
-    {/* subtle top blur divider */}
-    <GradualBlur position="top" height="8rem" strength={2} divCount={8} curve="bezier" opacity={1} />
     <Container>
       <div className="grid gap-8 md:grid-cols-12">
         <div className="md:col-span-6">
@@ -711,20 +721,38 @@ const Footer = () => (
 );
 
 // =============================
+// HOME PAGE
+// =============================
+const HomePage = ({ onTheme, theme }) => (
+  <>
+    <Nav onTheme={onTheme} theme={theme} />
+    <Hero />
+    <About />
+    <Skills />
+    <Experience />
+    <Projects />
+    <Contact />
+    <Footer />
+  </>
+);
+
+// =============================
 // APP
 // =============================
 export default function App() {
   const { theme, setTheme } = useTheme();
   return (
     <div className="min-h-dvh bg-white text-slate-900 antialiased dark:bg-[#0b0c10] dark:text-white">
-      <Nav onTheme={() => setTheme(theme === "dark" ? "light" : "dark")} theme={theme} />
-      <Hero />
-      <About />
-      <Skills />
-      <Experience />
-      <Projects />
-      <Contact />
-      <Footer />
+      <Routes>
+        <Route 
+          path="/" 
+          element={<HomePage onTheme={() => setTheme(theme === "dark" ? "light" : "dark")} theme={theme} />} 
+        />
+        <Route 
+          path="/projects" 
+          element={<ProjectsPage projects={PROJECTS} />} 
+        />
+      </Routes>
     </div>
   );
 }

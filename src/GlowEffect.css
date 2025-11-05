@@ -1,0 +1,33 @@
+/* Glow effect for hover - extracted from ChromaGrid */
+.glow-hover {
+  position: relative;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --spotlight-color: rgba(255, 255, 255, 0.25);
+  transition: all 0.3s ease;
+}
+
+.glow-hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle 120px at var(--mouse-x) var(--mouse-y),
+    var(--spotlight-color),
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+.glow-hover:hover::before {
+  opacity: 1;
+}
+
+.glow-hover > * {
+  position: relative;
+  z-index: 1;
+}
