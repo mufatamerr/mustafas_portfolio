@@ -1,4 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <text y=".9em" font-size="90">🚀</text>
+  <defs>
+    <linearGradient id="rocketGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Rocket body -->
+  <path d="M50 20 L45 70 L50 75 L55 70 Z" fill="url(#rocketGradient)" />
+  <!-- Rocket nose -->
+  <path d="M50 20 L45 30 L50 25 L55 30 Z" fill="#EF4444" />
+  <!-- Rocket window -->
+  <circle cx="50" cy="45" r="8" fill="#0EA5E9" />
+  <!-- Rocket fins -->
+  <path d="M45 70 L35 85 L45 80 Z" fill="#8B5CF6" />
+  <path d="M55 70 L65 85 L55 80 Z" fill="#8B5CF6" />
+  <!-- Rocket fire -->
+  <path d="M45 70 Q40 75 35 80 Q40 78 45 75 Z" fill="#F59E0B" opacity="0.8" />
+  <path d="M55 70 Q60 75 65 80 Q60 78 55 75 Z" fill="#EF4444" opacity="0.8" />
 </svg>
-

@@ -303,7 +303,7 @@ const Hero = () => {
             className="relative"
           >
             <div className="relative mx-auto h-64 w-64 sm:h-72 sm:w-72 overflow-hidden rounded-3xl border border-white/20 shadow-2xl ring-1 ring-black/5 md:h-[26rem] md:w-[26rem]">
-              <img src={HERO.avatar} alt="Avatar" className="h-full w-full object-cover" style={{ objectPosition: '31% -5%', transform: 'scale(1.1)' }} />
+              <img src={HERO.avatar} alt="Avatar" className="h-full w-full object-cover" style={{ objectPosition: '31% -5%', transform: 'scale(1.0)' }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-2xl bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-700 shadow ring-1 ring-black/5 backdrop-blur dark:bg-white/10 dark:text-white">
               </div>
