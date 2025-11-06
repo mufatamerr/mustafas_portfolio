@@ -5,11 +5,11 @@ import { ArrowLeft } from "lucide-react";
 import LiquidEther from "./visuals/LiquidEther";
 
 const Container = ({ className = "", children }) => (
-  <div className={`mx-auto w-full max-w-7xl px-6 md:px-8 ${className}`}>{children}</div>
+  <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8 ${className}`}>{children}</div>
 );
 
 const Section = ({ id, className = "", children }) => (
-  <section id={id} className={`relative py-24 md:py-32 ${className}`}>
+  <section id={id} className={`relative py-16 sm:py-20 md:py-24 lg:py-32 ${className}`}>
     {children}
   </section>
 );
@@ -40,7 +40,7 @@ const ProjectsPage = ({ projects = [] }) => {
         />
       </div>
 
-      <Section id="projects-page" className="pt-16">
+      <Section id="projects-page" className="pt-12 sm:pt-16">
         <Container>
           <motion.button
             initial={{ opacity: 0, x: -20 }}
@@ -57,10 +57,10 @@ const ProjectsPage = ({ projects = [] }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">
               My Projects
             </h1>
-            <p className="text-lg text-slate-600 dark:text-slate-300 mb-12">
+            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 mb-8 sm:mb-12">
               A collection of my work and side projects
             </p>
           </motion.div>

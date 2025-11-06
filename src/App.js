@@ -22,6 +22,8 @@ import {
   Phone,
   ShieldCheck,
   CircleChevronRight,
+  Menu,
+  X,
 } from "lucide-react";
 
 // Animated visuals
@@ -51,13 +53,13 @@ const useTheme = () => {
 };
 
 const Section = ({ id, className = "", children }) => (
-  <section id={id} className={`relative py-24 md:py-32 ${className}`}>
+  <section id={id} className={`relative py-16 sm:py-20 md:py-24 lg:py-32 ${className}`}>
     {children}
   </section>
 );
 
 const Container = ({ className = "", children }) => (
-  <div className={`mx-auto w-full max-w-7xl px-6 md:px-8 ${className}`}>{children}</div>
+  <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8 ${className}`}>{children}</div>
 );
 
 
@@ -124,18 +126,24 @@ const Spotlight = () => (
 // COMPONENTS
 // =============================
 const Nav = ({ onTheme, theme }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const links = [
     { href: "#about", label: "About" },
     { href: "#experience", label: "Experience" },
     { href: "#projects", label: "Projects" },
     { href: "#contact", label: "Contact" },
   ];
+
+  const handleLinkClick = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <div className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/40">
-      <Container className="flex items-center justify-between py-4">
-        <a href="#home" className="group inline-flex items-center gap-2">
+      <Container className="flex items-center justify-between py-3 md:py-4">
+        <a href="#home" className="group inline-flex items-center gap-2" onClick={handleLinkClick}>
           <Rocket className="h-5 w-5" />
-          <span className="font-semibold tracking-tight">{HERO.name}</span>
+          <span className="font-semibold tracking-tight text-sm sm:text-base">{HERO.name}</span>
         </a>
         <nav className="hidden gap-8 md:flex">
           {links.map((l) => (
@@ -148,15 +156,15 @@ const Nav = ({ onTheme, theme }) => {
             </a>
           ))}
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <a
             href={HERO.resumeUrl}
             download="Mustafa_Tamer_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 rounded-xl border border-slate-300/50 bg-white/70 px-3 py-1.5 text-sm font-medium shadow-sm ring-1 ring-black/5 hover:-translate-y-0.5 hover:shadow transition dark:border-white/10 dark:bg-white/5"
+            className="group hidden sm:inline-flex items-center gap-2 rounded-xl border border-slate-300/50 bg-white/70 px-3 py-1.5 text-sm font-medium shadow-sm ring-1 ring-black/5 hover:-translate-y-0.5 hover:shadow transition dark:border-white/10 dark:bg-white/5"
           >
-            <Download className="h-4 w-4" /> Resume
+            <Download className="h-4 w-4" /> <span className="hidden md:inline">Resume</span>
           </a>
           <button
             onClick={onTheme}
@@ -165,8 +173,44 @@ const Nav = ({ onTheme, theme }) => {
           >
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+            className="md:hidden rounded-xl border border-slate-300/50 bg-white/70 p-2 shadow-sm ring-1 ring-black/5 transition dark:border-white/10 dark:bg-white/5"
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
       </Container>
+      
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t border-slate-200/60 dark:border-white/10">
+          <Container className="py-4 space-y-3">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={handleLinkClick}
+                className="block text-base text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition py-2"
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href={HERO.resumeUrl}
+              download="Mustafa_Tamer_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleLinkClick}
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-300/50 bg-white/70 px-4 py-2.5 text-sm font-medium shadow-sm ring-1 ring-black/5 transition dark:border-white/10 dark:bg-white/5 mt-2"
+            >
+              <Download className="h-4 w-4" /> Resume
+            </a>
+          </Container>
+        </div>
+      )}
+      
       <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200/60 to-transparent dark:via-white/10" />
     </div>
   );
@@ -174,7 +218,7 @@ const Nav = ({ onTheme, theme }) => {
 
 const Hero = () => {
   return (
-    <Section id="home" className="pt-16">
+    <Section id="home" className="pt-12 sm:pt-16">
       {/* Animated OGL shader background */}
       <div className="absolute inset-0 -z-10">
         <Balatro
@@ -191,13 +235,13 @@ const Hero = () => {
       <GridGlow />
       <Spotlight />
       <Container className="relative">
-        <div className="grid items-center gap-10 md:grid-cols-2">
+        <div className="grid items-center gap-8 sm:gap-10 md:grid-cols-2">
           <div>
             <motion.h1
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-4xl font-bold tracking-tight sm:text-5xl"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight"
             >
               {HERO.title}
               <span className="block bg-gradient-to-r from-sky-500 via-fuchsia-500 to-emerald-500 bg-clip-text text-transparent">
@@ -208,7 +252,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.05 }}
-              className="mt-4 text-lg text-slate-600 dark:text-slate-300"
+              className="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-300"
             >
               {HERO.tagline}
             </motion.p>
@@ -220,25 +264,25 @@ const Hero = () => {
             >
               <a
                 href="#projects"
-                className="group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 to-fuchsia-500 px-5 py-3 font-medium text-white shadow-lg ring-1 ring-black/5 transition hover:opacity-90"
+                className="group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 to-fuchsia-500 px-4 py-2.5 sm:px-5 sm:py-3 text-sm sm:text-base font-medium text-white shadow-lg ring-1 ring-black/5 transition hover:opacity-90"
               >
                 View Projects
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/70 px-5 py-3 font-medium shadow-sm ring-1 ring-black/5 backdrop-blur transition hover:-translate-y-0.5 hover:shadow dark:border-white/10 dark:bg-white/5"
+                className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/70 px-4 py-2.5 sm:px-5 sm:py-3 text-sm sm:text-base font-medium shadow-sm ring-1 ring-black/5 backdrop-blur transition hover:-translate-y-0.5 hover:shadow dark:border-white/10 dark:bg-white/5"
               >
                 Contact
                 <Mail className="h-4 w-4" />
               </a>
             </motion.div>
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-300">
-              <div className="inline-flex items-center gap-2"><MapPin className="h-4 w-4" /> {HERO.location}</div>
-              <div className="inline-flex items-center gap-2"><Calendar className="h-4 w-4" /> Available for opportunities</div>
-              <div className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4" /> Open to relocate</div>
+            <div className="mt-6 flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+              <div className="inline-flex items-center gap-2"><MapPin className="h-3 w-3 sm:h-4 sm:w-4" /> <span className="whitespace-nowrap">{HERO.location}</span></div>
+              <div className="inline-flex items-center gap-2"><Calendar className="h-3 w-3 sm:h-4 sm:w-4" /> <span className="whitespace-nowrap">Available</span></div>
+              <div className="inline-flex items-center gap-2"><ShieldCheck className="h-3 w-3 sm:h-4 sm:w-4" /> <span className="whitespace-nowrap">Open to relocate</span></div>
             </div>
-            <div className="mt-6 flex items-center gap-4">
+            <div className="mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
               <a className="group inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" href="https://github.com/mufatamerr" target="_blank" rel="noreferrer">
                 <Github className="h-5 w-5" /> GitHub
                 <ExternalLink className="h-3 w-3 opacity-0 transition group-hover:opacity-100" />
@@ -258,7 +302,7 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="relative"
           >
-            <div className="relative mx-auto h-72 w-72 overflow-hidden rounded-3xl border border-white/20 shadow-2xl ring-1 ring-black/5 md:h-[26rem] md:w-[26rem]">
+            <div className="relative mx-auto h-64 w-64 sm:h-72 sm:w-72 overflow-hidden rounded-3xl border border-white/20 shadow-2xl ring-1 ring-black/5 md:h-[26rem] md:w-[26rem]">
               <img src={HERO.avatar} alt="Avatar" className="h-full w-full object-cover" style={{ objectPosition: '31% -5%', transform: 'scale(1.1)' }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-2xl bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-700 shadow ring-1 ring-black/5 backdrop-blur dark:bg-white/10 dark:text-white">
