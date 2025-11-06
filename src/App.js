@@ -457,7 +457,6 @@ const Projects = () => (
       <div className="flex items-end justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold tracking-tight">Projects</h2>
-          <p className="mt-2 text-slate-600 dark:text-slate-300">Add your best work here. The layout updates automatically.</p>
         </div>
       </div>
       {PROJECTS.length > 0 ? (
