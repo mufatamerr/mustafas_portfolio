@@ -5,3 +5,72 @@
 :root {
   color-scheme: light dark;
 }
+
+/* Prevent horizontal scrolling on mobile */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Ensure all containers respect viewport width */
+.container,
+section,
+div[class*="container"] {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 640px) {
+  /* Prevent text from causing overflow */
+  * {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Ensure images don't overflow */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Prevent horizontal scroll from transforms */
+  [class*="transform"],
+  [style*="transform"] {
+    will-change: transform;
+  }
+  
+  /* Ensure all sections are contained */
+  section {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  /* Better touch targets on mobile */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent horizontal scroll from absolute positioned elements */
+  [class*="absolute"],
+  [class*="fixed"] {
+    max-width: 100vw;
+  }
+}

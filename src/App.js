@@ -53,13 +53,13 @@ const useTheme = () => {
 };
 
 const Section = ({ id, className = "", children }) => (
-  <section id={id} className={`relative py-16 sm:py-20 md:py-24 lg:py-32 ${className}`}>
+  <section id={id} className={`relative py-16 sm:py-20 md:py-24 lg:py-32 overflow-x-hidden w-full ${className}`}>
     {children}
   </section>
 );
 
 const Container = ({ className = "", children }) => (
-  <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8 ${className}`}>{children}</div>
+  <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8 overflow-x-hidden ${className}`}>{children}</div>
 );
 
 
@@ -112,14 +112,14 @@ const SKILLS = {
 // FANCY BACKGROUNDS
 // =============================
 const GridGlow = () => (
-  <div aria-hidden className="pointer-events-none absolute inset-0">
+  <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
     <div className="absolute inset-0 bg-[radial-gradient(40rem_40rem_at_120%_-10%,rgba(59,130,246,0.25),transparent_60%),radial-gradient(32rem_32rem_at_-10%_-10%,rgba(244,63,94,0.25),transparent_60%),radial-gradient(28rem_28rem_at_50%_120%,rgba(16,185,129,0.2),transparent_60%)]" />
     <div className="absolute inset-0 bg-grid-slate-200/[0.05] [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
   </div>
 );
 
 const Spotlight = () => (
-  <div aria-hidden className="absolute -top-40 left-1/2 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-gradient-to-b from-sky-500/40 via-fuchsia-500/30 to-emerald-500/20 blur-3xl" />
+  <div aria-hidden className="absolute -top-40 left-1/2 h-[40rem] w-[40rem] max-w-[100vw] -translate-x-1/2 rounded-full bg-gradient-to-b from-sky-500/40 via-fuchsia-500/30 to-emerald-500/20 blur-3xl overflow-hidden" />
 );
 
 // =============================
@@ -139,7 +139,7 @@ const Nav = ({ onTheme, theme }) => {
   };
 
   return (
-    <div className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/40">
+    <div className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/40 w-full overflow-x-hidden">
       <Container className="flex items-center justify-between py-3 md:py-4">
         <a href="#home" className="group inline-flex items-center gap-2" onClick={handleLinkClick}>
           <Rocket className="h-5 w-5" />
@@ -220,7 +220,7 @@ const Hero = () => {
   return (
     <Section id="home" className="pt-12 sm:pt-16">
       {/* Animated OGL shader background */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-10 overflow-hidden">
         <Balatro
           isRotate={false}
           mouseInteraction={true}
@@ -484,7 +484,7 @@ const ProjectCard = ({ p }) => (
 const Projects = () => (
   <Section id="projects">
     {/* Three.js Beams backdrop */}
-    <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 mx-auto h-[560px] w-full max-w-6xl">
+    <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 mx-auto h-[560px] w-full max-w-6xl overflow-hidden">
       <Beams
         beamWidth={2}
         beamHeight={15}
@@ -785,7 +785,7 @@ const HomePage = ({ onTheme, theme }) => (
 export default function App() {
   const { theme, setTheme } = useTheme();
   return (
-    <div className="min-h-dvh bg-white text-slate-900 antialiased dark:bg-[#0b0c10] dark:text-white">
+    <div className="min-h-dvh bg-white text-slate-900 antialiased dark:bg-[#0b0c10] dark:text-white overflow-x-hidden w-full">
       <Routes>
         <Route 
           path="/" 

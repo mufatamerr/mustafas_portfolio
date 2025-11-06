@@ -5,11 +5,11 @@ import { ArrowLeft } from "lucide-react";
 import LiquidEther from "./visuals/LiquidEther";
 
 const Container = ({ className = "", children }) => (
-  <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8 ${className}`}>{children}</div>
+  <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8 overflow-x-hidden ${className}`}>{children}</div>
 );
 
 const Section = ({ id, className = "", children }) => (
-  <section id={id} className={`relative py-16 sm:py-20 md:py-24 lg:py-32 ${className}`}>
+  <section id={id} className={`relative py-16 sm:py-20 md:py-24 lg:py-32 overflow-x-hidden w-full ${className}`}>
     {children}
   </section>
 );
@@ -18,9 +18,9 @@ const ProjectsPage = ({ projects = [] }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-dvh bg-white text-slate-900 antialiased dark:bg-[#0b0c10] dark:text-white">
+    <div className="min-h-dvh bg-white text-slate-900 antialiased dark:bg-[#0b0c10] dark:text-white overflow-x-hidden w-full">
       {/* Background with LiquidEther */}
-      <div className="fixed inset-0 -z-10">
+      <div className="fixed inset-0 -z-10 overflow-hidden">
         <LiquidEther
           colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
           mouseForce={20}
