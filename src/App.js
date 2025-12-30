@@ -78,13 +78,13 @@ const HERO = {
 };
 
 const PROJECTS = [
-  // {
-  //   title: "FaceTrace",
-  //   blurb: "Privacy-first people search from public sources.",
-  //   tags: ["React", "FastAPI", "Firebase"],
-  //   href: "https://your-live-demo.com",
-  //   repo: "https://github.com/you/facetrace",
-  // },
+  {
+    title: "MuteFrame",
+    blurb: "A React application that automatically censors swear words in videos by adding bleep sound effects. Supports MP4 file uploads and YouTube links with real-time processing progress.",
+    tags: ["React", "Node.js", "OpenAI Whisper", "FFmpeg", "Vercel"],
+    href: "https://mute-frame.vercel.app/",
+    repo: "https://github.com/mufatamerr/MuteFrame",
+  },
 ];
 
 const EXPERIENCE = [
@@ -503,21 +503,16 @@ const Projects = () => (
           <h2 className="text-xl font-semibold tracking-tight">Projects</h2>
         </div>
       </div>
-      {PROJECTS.length > 0 ? (
-        <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {PROJECTS.map((p, i) => (
-            <ProjectCard key={i} p={p} />
-          ))}
-        </div>
-      ) : (
-        <EmptyProjects />
-      )}
+      <EmptyProjects />
     </Container>
   </Section>
 );
 
 const EmptyProjects = () => {
   const navigate = useNavigate();
+  
+  // Get all unique tags from projects
+  const allTags = [...new Set(PROJECTS.flatMap(p => p.tags || []))];
   
   return (
     <div className="relative mt-6 rounded-3xl border border-dashed border-slate-300/60 p-10 text-center dark:border-white/20">
@@ -539,13 +534,15 @@ const EmptyProjects = () => {
           <p className="mt-2 text-slate-600 dark:text-slate-300">
             Click the folder to view all projects
           </p>
-          <div className="mt-6 flex justify-center gap-3">
-            {[].map((x) => (
-              <span key={x} className="rounded-full border border-white/20 bg-white/80 px-3 py-1 text-xs ring-1 ring-black/5 dark:bg-white/10">
-                {x}
-              </span>
-            ))}
-          </div>
+          {allTags.length > 0 && (
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              {allTags.slice(0, 6).map((tag) => (
+                <span key={tag} className="rounded-full border border-white/20 bg-white/80 px-3 py-1 text-xs ring-1 ring-black/5 dark:bg-white/10">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
