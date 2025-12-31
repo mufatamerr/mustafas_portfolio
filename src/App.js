@@ -108,11 +108,10 @@ const EXPERIENCE = [
 ];
 
 const SKILLS = {
-  Core: ["React", "TypeScript", "Node.js", "Python", "Java", "FastAPI", "SQL"],
-  Frontend: ["Tailwind", "Framer Motion", "Vite"],
-  Backend: ["PostgreSQL", "MongoDB", "Docker"],
+  Frontend: ["React", "Tailwind", "Framer Motion", "Vite"],
+  Backend: ["TypeScript", "Node.js", "Python", "Java", "FastAPI", "SQL", "PostgreSQL", "MongoDB"],
   Cloud: ["Vercel", "Firebase", "AWS"],
-  Tools: ["Git", "GitHub", "VSCode", "IntelliJ", "Jira", "Slack", "Cursor", "Windsurf"],
+  Tools: ["Git", "GitHub", "Docker", "Jira", "Slack", "Cursor", "Windsurf"],
 };
 
 // =============================
@@ -518,9 +517,6 @@ const Projects = () => (
 const EmptyProjects = () => {
   const navigate = useNavigate();
   
-  // Get all unique tags from projects
-  const allTags = [...new Set(PROJECTS.flatMap(p => p.tags || []))];
-  
   return (
     <div className="relative mt-6 rounded-3xl border border-dashed border-slate-300/60 p-10 text-center dark:border-white/20">
       <div className="mx-auto flex max-w-2xl flex-col items-center gap-6">
@@ -541,15 +537,6 @@ const EmptyProjects = () => {
           <p className="mt-2 text-slate-600 dark:text-slate-300">
             Click the folder to view all projects
           </p>
-          {allTags.length > 0 && (
-            <div className="mt-6 flex flex-wrap justify-center gap-3">
-              {allTags.slice(0, 6).map((tag) => (
-                <span key={tag} className="rounded-full border border-white/20 bg-white/80 px-3 py-1 text-xs ring-1 ring-black/5 dark:bg-white/10">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>
