@@ -85,6 +85,13 @@ const PROJECTS = [
     href: "https://mute-frame.vercel.app/",
     repo: "https://github.com/mufatamerr/MuteFrame",
   },
+  {
+    title: "SparkVoice",
+    blurb: "A DevOps-powered AI observability platform for speech recognition with real-time monitoring and accessibility features. Built with FastAPI backend and React frontend, featuring Prometheus metrics and Grafana dashboards.",
+    tags: ["React", "FastAPI", "Python", "OpenAI", "Docker", "Prometheus", "Grafana", "Vercel"],
+    href: "https://sparkvoice.vercel.app/",
+    repo: "https://github.com/mufatamerr/AI-Observability-Monitoring-Speech-Recognition-Orange-Honey-Mustar",
+  },
 ];
 
 const EXPERIENCE = [
