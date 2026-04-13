@@ -449,42 +449,6 @@ const Experience = () => (
   </Section>
 );
 
-const ProjectCard = ({ p }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 12 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.4 }}
-    className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/70 p-6 shadow-xl ring-1 ring-black/5 backdrop-blur dark:bg-white/5"
-  >
-    <div className="flex items-center justify-between gap-4">
-      <h3 className="text-lg font-semibold tracking-tight">{p.title}</h3>
-      <div className="flex items-center gap-3">
-        {p.href && (
-          <a href={p.href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm font-medium hover:underline">
-            Live <ExternalLink className="h-3.5 w-3.5" />
-          </a>
-        )}
-        {p.repo && (
-          <a href={p.repo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm font-medium hover:underline">
-            Repo <Github className="h-3.5 w-3.5" />
-          </a>
-        )}
-      </div>
-    </div>
-    <p className="mt-2 text-slate-600 dark:text-slate-300">{p.blurb}</p>
-    {p.tags?.length > 0 && (
-      <div className="mt-4 flex flex-wrap gap-2">
-        {p.tags.map((t) => (
-          <span key={t} className="rounded-full border border-white/20 bg-white/80 px-3 py-1 text-xs ring-1 ring-black/5 dark:bg-white/10">
-            {t}
-          </span>
-        ))}
-      </div>
-    )}
-  </motion.div>
-);
-
 const Projects = () => (
   <Section id="projects">
     {/* Three.js Beams backdrop */}
